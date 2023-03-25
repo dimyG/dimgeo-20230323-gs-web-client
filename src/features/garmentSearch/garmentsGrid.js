@@ -24,6 +24,7 @@ const Image = ({img_src, id, className, onClick, onHover}) => {
 const GarmentsGrid = (props) => {
   const classes = useStyles();
   const garments = props.garments;
+  const isLoading = props.isLoading;
   // console.log("garments:", garments);
 
   const renderImages = () => {
@@ -32,13 +33,10 @@ const GarmentsGrid = (props) => {
       console.log("garment:", garment);
       const renderedImage = (
         <Grid item xs={12} sm={6} md={4} lg={3} key={garment.product_id}>
-          {garment.images[0].s3_url
-            ? <Image
+            <Image
               img_src={garment.images[0].s3_url}
               id={garment.product_id}
             />
-            : <Grid container justify="center" alignItems="center" style={{ height: '100%' }}><CircularProgress /></Grid>
-          }
         </Grid>
       );
       renderedImages.push(renderedImage);
@@ -52,9 +50,10 @@ const GarmentsGrid = (props) => {
     <Box mt={3}>
       <Card id={'imageGrid-card'}>
         <CardContent className={classes.cardContent}>
-          <Grid container spacing={2}>
-            {renderedImages}
-          </Grid>
+          {isLoading
+            ? <Grid container justify="center" alignItems="center" style={{ height: '100%' }}><CircularProgress /></Grid>
+            : <Grid container spacing={2}>{renderedImages}</Grid>
+          }
         </CardContent>
       </Card>
     </Box>

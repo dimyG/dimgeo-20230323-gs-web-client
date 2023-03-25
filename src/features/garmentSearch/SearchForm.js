@@ -34,6 +34,8 @@ const SearchForm = () => {
     }, []);
 
   const searchRequest = async ({query = defaultQuery} = {}) => {
+    dispatch(garmentsSlice.actions.setIsLoading(true));
+
     let config = {
       params: {query: query}
     }
@@ -53,6 +55,7 @@ const SearchForm = () => {
       const msgText = `Oops, please try again...`;
       dispatch(messagesSlice.actions.addMessage({text: msgText, mode: "error", seen: false}));
     }
+    dispatch(garmentsSlice.actions.setIsLoading(false));
   }
 
   const onFormSubmit = async (values) => {

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import {Container} from "@material-ui/core";
+import {Container, Grid} from "@material-ui/core";
 import GarmentsGrid from "./garmentsGrid";
 import Page from "../../components/Page";
 import SearchForm from "./SearchForm";
 import {useSelector} from "react-redux";
-import {garmentsSelector} from "./garmentsSlice";
+import {garmentsSelector, isLoadingSelector} from "./garmentsSlice";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 const SearchInput = () => {
     const classes = useStyles();
     const garments = useSelector(state => garmentsSelector(state));
+    const isLoading = useSelector(state => isLoadingSelector(state));
 
     return (
       <Page
@@ -29,9 +29,7 @@ const SearchInput = () => {
       >
         <Container maxWidth={false}>
           <SearchForm />
-          {garments.length === 0 ? null : (
-            <GarmentsGrid garments={garments}/>
-          )}
+            <GarmentsGrid garments={garments} isLoading={isLoading}/>
         </Container>
       </Page>
     );
