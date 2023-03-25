@@ -52,6 +52,13 @@ const SearchForm = () => {
     setInitialValues({...values,});
   }
 
+  const handleKeyDown = (event, callback) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // prevent new line
+      callback();
+    }
+  };
+
   const formik = useFormik({
     initialValues,
     enableReinitialize: true, // enable reinitialization of the form
@@ -79,6 +86,7 @@ const SearchForm = () => {
                   name="query"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
+                  onKeyDown={(event) => handleKeyDown(event, formik.submitForm)}
                   type="text"
                   value={formik.values.query}
                   variant="outlined"
