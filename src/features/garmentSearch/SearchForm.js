@@ -37,8 +37,13 @@ const SearchForm = () => {
     try{
       const searchResponse = await axios.get(searchUrl, config);
       let garments = searchResponse.data;
-      dispatch(garmentsSlice.actions.setGarments(garments));
-      console.debug("garments:", garments);
+      if (garments.length === 0) {
+        const msgText = `Oops, we are out of ${query}!`;
+        dispatch(messagesSlice.actions.addMessage({text: msgText, mode: "info", seen: false}));
+      } else {
+        dispatch(garmentsSlice.actions.setGarments(garments));
+      }
+      // console.debug("garments:", garments);
     } catch (e) {
       console.error(`Error: ${e}`);
       const msgText = `Oops, please try again...`;
