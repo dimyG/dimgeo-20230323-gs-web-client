@@ -3,7 +3,16 @@ import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box, Button, Card, CardContent, FormHelperText, Grid, TextField, Typography} from "@material-ui/core";
 import { useFormik } from 'formik';
-import clsx from "clsx";
+import axios from 'axios';
+import {messagesSlice} from "src/features/Messages/messagesSlice";
+import {imagesSlice} from "../textToImage/imagesSlice";
+import {garmentsSlice} from "./garmentsSlice";
+import {useDispatch} from "react-redux";
+
+// const garmentsServer = process.env.REACT_APP_GARMENTS_API_SERVICE;
+const garmentsServer = 'http://localhost:8000/';
+const searchUrl = garmentsServer + 'search/';
+console.debug("searchUrl:", searchUrl)
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -17,10 +26,29 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchForm = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [initialValues, setInitialValues] = React.useState({query: "",});
 
-  const onFormSubmit = (values) => {
-    // Modify the initial values here
+  const searchRequest = async (query) => {
+    let config = {
+      params: {query: query}
+    }
+
+    try{
+      const searchResponse = await axios.get(searchUrl, config);
+      let garments = searchResponse.data;
+      dispatch(garmentsSlice.actions.setGarments(garments));
+      console.debug("garments:", garments);
+    } catch (e) {
+      console.error(`Error: ${e}`);
+      const msgText = `Oops, please try again...`;
+      dispatch(messagesSlice.actions.addMessage({text: msgText, mode: "error", seen: false}));
+    }
+  }
+
+  const onFormSubmit = async (values) => {
+    await searchRequest(values.query)
+    // Set the initial form values to the current values
     setInitialValues({...values,});
   }
 
@@ -70,7 +98,7 @@ const SearchForm = () => {
                 className={classes.button}
                 fullWidth
                 color="secondary"
-                // disabled={isSubmitting}
+                disabled={formik.isSubmitting}
                 size="large"
                 type="submit"
                 variant="contained"

@@ -11,6 +11,7 @@ import csrfReducer from '../features/csrf/csrfSlice'
 import loginTargetPathReducer from '../features/loginTargetPathSlice'
 import messagesReducer from 'src/features/Messages/messagesSlice'
 import imagesReducer from 'src/features/textToImage/imagesSlice'
+import garmentsReducer from 'src/features/garmentSearch/garmentsSlice'
 
 const rootReducer = combineReducers({
   calendar: calendarReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   loginTargetPath: loginTargetPathReducer,
   messages: messagesReducer,
   images: imagesReducer,
+  garments: garmentsReducer,
 });
 
 export default rootReducer;
