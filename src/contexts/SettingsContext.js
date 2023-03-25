@@ -9,7 +9,7 @@ import { THEMES } from 'src/constants';
 const defaultSettings = {
   direction: 'ltr',
   responsiveFontSizes: true,
-  theme: THEMES.ONE_DARK
+  theme: THEMES.LIGHT
 };
 
 export const restoreSettings = () => {
