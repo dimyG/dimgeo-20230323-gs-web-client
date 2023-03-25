@@ -1,16 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box, Button, Card, CardContent, FormHelperText, Grid, TextField, Typography} from "@material-ui/core";
 import { useFormik } from 'formik';
 import axios from 'axios';
 import {messagesSlice} from "src/features/Messages/messagesSlice";
-import {imagesSlice} from "../textToImage/imagesSlice";
 import {garmentsSlice} from "./garmentsSlice";
 import {useDispatch} from "react-redux";
 
-// const garmentsServer = process.env.REACT_APP_GARMENTS_API_SERVICE;
-const garmentsServer = 'http://localhost:8000/';
+const garmentsServer = process.env.REACT_APP_GARMENTS_API_SERVICE;
+// const garmentsServer = 'http://localhost:8000/';
 const searchUrl = garmentsServer + 'search/';
 console.debug("searchUrl:", searchUrl)
 
@@ -28,8 +27,14 @@ const SearchForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = React.useState({query: "",});
+  const defaultQuery = "φόρεμα";
 
-  const searchRequest = async (query) => {
+  // call the searchRequest function when component is mounted for the first time
+  useEffect(() => {
+    const res = searchRequest();
+    }, []);
+
+  const searchRequest = async ({query = defaultQuery} = {}) => {
     let config = {
       params: {query: query}
     }
@@ -52,7 +57,7 @@ const SearchForm = () => {
   }
 
   const onFormSubmit = async (values) => {
-    await searchRequest(values.query)
+    await searchRequest({query: values.query})
     // Set the initial form values to the current values
     setInitialValues({...values,});
   }
