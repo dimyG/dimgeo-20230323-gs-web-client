@@ -2,6 +2,7 @@
 const auth_server = process.env.REACT_APP_AUTH_API_SERVICE;
 const text_to_img_server = process.env.REACT_APP_TEXT_TO_IMG_API_SERVICE;
 const payment_server = process.env.REACT_APP_PAYMENTS_API_SERVICE;
+const garmentsServer = process.env.REACT_APP_GARMENTS_API_SERVICE;
 
 const urls = {
   auth: {
@@ -22,6 +23,9 @@ const urls = {
   },
   payments: {
     create: payment_server + 'api/payments/',
+  },
+  garments: {
+    search: garmentsServer + 'search/',
   }
 }
 

@@ -7,10 +7,9 @@ import axios from 'axios';
 import {messagesSlice} from "src/features/Messages/messagesSlice";
 import {garmentsSlice} from "./garmentsSlice";
 import {useDispatch} from "react-redux";
+import urls from "src/urls";
 
-const garmentsServer = process.env.REACT_APP_GARMENTS_API_SERVICE;
-// const garmentsServer = 'http://localhost:8000/';
-const searchUrl = garmentsServer + 'search/';
+const searchUrl = urls.garments.search;
 console.debug("searchUrl:", searchUrl)
 
 const useStyles = makeStyles((theme) => ({
