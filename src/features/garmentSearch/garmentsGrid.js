@@ -30,7 +30,7 @@ const GarmentsGrid = (props) => {
   const renderImages = () => {
     const renderedImages = [];
     for (let garment of garments) {
-      console.log("garment:", garment);
+      // console.log("garment:", garment);
       const renderedImage = (
         <Grid item xs={12} sm={6} md={4} lg={3} key={garment.product_id}>
             <Image

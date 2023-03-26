@@ -3,14 +3,11 @@ import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box, Button, Card, CardContent, FormHelperText, Grid, TextField, Typography} from "@material-ui/core";
 import { useFormik } from 'formik';
-import axios from 'axios';
-import {messagesSlice} from "src/features/Messages/messagesSlice";
+// import axios from 'axios';
+// import {messagesSlice} from "src/features/Messages/messagesSlice";
 import {garmentsSlice} from "./garmentsSlice";
 import {useDispatch} from "react-redux";
-import urls from "src/urls";
 
-const searchUrl = urls.garments.search;
-console.debug("searchUrl:", searchUrl)
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -22,44 +19,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchForm = () => {
+const SearchForm = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = React.useState({query: "",});
-  const defaultQuery = "φόρεμα";
+  const searchRequest = props.onSubmit;
 
   // call the searchRequest function when component is mounted for the first time
   useEffect(() => {
     const res = searchRequest();
     }, []);
 
-  const searchRequest = async ({query = defaultQuery} = {}) => {
-    dispatch(garmentsSlice.actions.setIsLoading(true));
-
-    let config = {
-      params: {query: query}
-    }
-
-    try{
-      const searchResponse = await axios.get(searchUrl, config);
-      let garments = searchResponse.data;
-      if (garments.length === 0) {
-        const msgText = `Oops, we are out of ${query}!`;
-        dispatch(messagesSlice.actions.addMessage({text: msgText, mode: "info", seen: false}));
-      } else {
-        dispatch(garmentsSlice.actions.setGarments(garments));
-      }
-      // console.debug("garments:", garments);
-    } catch (e) {
-      console.error(`Error: ${e}`);
-      const msgText = `Oops, please try again...`;
-      dispatch(messagesSlice.actions.addMessage({text: msgText, mode: "error", seen: false}));
-    }
-    dispatch(garmentsSlice.actions.setIsLoading(false));
-  }
-
   const onFormSubmit = async (values) => {
     await searchRequest({query: values.query})
+    dispatch(garmentsSlice.actions.setQuery(values.query));
     // Set the initial form values to the current values
     setInitialValues({...values,});
   }
