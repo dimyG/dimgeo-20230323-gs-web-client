@@ -146,9 +146,9 @@ const TopBar = ({
         {/*<Search />*/}
         {/*<Contacts />*/}
         {/*<Notifications />*/}
-        <Login/>
-        <Register/>
-        <Pricing/>
+        {/*<Login/>*/}
+        {/*<Register/>*/}
+        {/*<Pricing/>*/}
         <Settings />
         { user? (
           <Box ml={2}>
