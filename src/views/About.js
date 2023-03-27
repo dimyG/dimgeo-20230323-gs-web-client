@@ -23,10 +23,7 @@ const About = () => {
         {/*<CardHeader title="About"/>*/}
         <CardContent>
           <Typography align="justify">
-            Hi! <br/><br/>
-            My name is Dimitris Georgoulas. I'm a full stack web developer.
-            I made this web app to play with diffusion models and microservices.
-            You can find more details on my <Link target="_blank" href={"https://dimgeo.com/"} color="secondary">blog</Link>. Have fun!
+            An awesome garments search project!
           </Typography>
         </CardContent>
       </Card>
